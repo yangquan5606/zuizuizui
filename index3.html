@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>深圳信跃医疗有限公司</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      background: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #005eb8;
+    }
+
+    /* 导航主菜单 - 增强动感效果 */
+    nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-item {
+      position: relative;
+      padding: 0 12px;
+    }
+
+    .nav-item > a {
+      text-decoration: none;
+      color: #333;
+      font-size: 15px;
+      transition: all 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+      padding: 8px 0;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 导航链接 hover 效果 - 下划线+缩放+颜色变化 */
+    .nav-item:hover > a {
+      color: #005eb8;
+      transform: scale(1.1);
+      text-shadow: 0 0 8px rgba(0, 94, 184, 0.3);
+    }
+
+    .nav-item > a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #005eb8;
+      transition: width 0.4s ease;
+    }
+
+    .nav-item:hover > a::after {
+      width: 100%;
+    }
+
+    /* 悬浮下拉子菜单 - 增强动画 */
+    .submenu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 6px;
+      min-width: 160px;
+      padding: 8px 0;
+      display: none;
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
+    }
+
+    .nav-item:hover .submenu {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .submenu a {
+      display: block;
+      padding: 10px 18px;
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 子菜单 hover 增强 */
+    .submenu a:hover {
+      background: #005eb8;
+      color: white;
+      transform: translateX(8px);
+      box-shadow: 0 2px 8px rgba(0, 94, 184, 0.2);
+    }
+
+    /* 多语言下拉 - 增强交互 */
+    .lang-dropdown {
+      position: relative;
+      display: inline-block;
+      margin-left: 20px;
+    }
+
+    .lang-select {
+      padding: 8px 12px;
+      border: 1px solid #005eb8;
+      background: white;
+      color: #005eb8;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 100px;
+      justify-content: space-between;
+      transition: all 0.4s ease;
+    }
+
+    .lang-select:hover {
+      background: #005eb8;
+      color: white;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 94, 184, 0.2);
+    }
+
+    .lang-options {
+      position: absolute;
+      top: 120%;
+      right: 0;
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 160px;
+      display: none;
+      overflow: hidden;
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(10px) scale(0.95);
+      transition: all 0.3s ease;
+    }
+
+    .lang-options.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .lang-item {
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #333;
+      transition: all 0.3s ease;
+    }
+
+    .lang-item:hover,
+    .lang-item.active {
+      background: #005eb8;
+      color: white;
+      transform: scale(1.05);
+      padding-left: 20px;
+    }
+
+    .banner {
+      height: 550px;
+      background: linear-gradient(rgba(0,60,120,0.7), rgba(0,60,120,0.7)), url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      animation: fadeIn 1.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .banner h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .banner p {
+      font-size: 18px;
+      max-width: 800px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 32px;
+      color: #003d73;
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      width: 60px;
+      height: 3px;
+      background: #005eb8;
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .card-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* 产品卡片 - 增强动感效果 */
+    .card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-15px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0, 94, 184, 0.2);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.15) rotate(2deg);
+    }
+
+    .card-content {
+      padding: 25px;
+    }
+
+    .card h3 {
+      font-size: 19px;
+      color: #003d73;
+      margin-bottom: 10px;
+    }
+
+    /* 按钮 - 大幅增强动感效果 */
+    .btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 22px;
+      background: #005eb8;
+      color: white;
+      border-radius: 4px;
+      transition: all 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(0, 94, 184, 0.1);
+    }
+
+    /* 按钮点击波纹效果 */
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+    }
+
+    .btn:hover::after {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn:hover {
+      background: #004a99;
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 94, 184, 0.3);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 8px rgba(0, 94, 184, 0.2);
+    }
+
+    .contact {
+      background: #f5f7fa;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    footer {
+      background: #002a4d;
+      color: white;
+      text-align: center;
+      padding: 30px;
+      font-size: 14px;
+    }
+
+    .lang-content {
+      display: none;
+    }
+    .lang-content.active {
+      display: block;
+      animation: contentFade 0.6s ease;
+    }
+
+    /* 内容切换动画 */
+    @keyframes contentFade {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .rtl {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .news-box {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 16px;
+      line-height: 2;
+    }
+
+    /* 模态框动画增强 */
+    #modal {
+      display:none; 
+      position:fixed; 
+      top:0; 
+      left:0; 
+      width:100%; 
+      height:100%; 
+      background:rgba(0,0,0,0.7); 
+      z-index:9999; 
+      justify-content:center; 
+      align-items:center;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    #modal.show {
+      opacity: 1;
+    }
+
+    #modal > div {
+      background:#fff; 
+      width:90%; 
+      max-width:800px; 
+      padding:30px; 
+      border-radius:10px; 
+      position:relative; 
+      max-height:80vh; 
+      overflow-y:auto;
+      transform: scale(0.9) translateY(20px);
+      transition: all 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+    }
+
+    #modal.show > div {
+      transform: scale(1) translateY(0);
+    }
+
+    @media (max-width:768px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+      }
+      .card-group {
+        grid-template-columns: 1fr;
+      }
+      .banner h1 {
+        font-size: 30px;
+      }
+      .btn:hover {
+        transform: scale(1.05) translateY(-2px);
+      }
+      .card:hover {
+        transform: translateY(-10px) scale(1.02);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo" data-i18n="logo">深圳信跃医疗有限公司</div>
+  <div style="display:flex; align-items:center;">
+
+    <!-- 导航 + 悬浮子菜单 -->
+    <nav>
+      <div class="nav-item">
+        <a href="#home" data-i18n="nav_home">首页</a>
+        <div class="submenu">
+          <a href="#home" data-i18n="nav_home_main">首页主页</a>
+          <a href="#about" data-i18n="nav_about_us">关于我们</a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a href="#about" data-i18n="nav_about">关于我们</a>
+        <div class="submenu">
+          <a href="#about" data-i18n="nav_company_profile">公司简介</a>
+          <a href="#contact" data-i18n="nav_contact_us">联系我们</a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a href="#products" data-i18n="nav_products">核心产品</a>
+        <div class="submenu">
+          <a href="#products" data-i18n="nav_all_products">全部产品</a>
+          <a href="#products" data-i18n="nav_hemostatic_materials">止血材料</a>
+          <a href="#products" data-i18n="nav_repair_materials">修复材料</a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a href="#news" data-i18n="nav_news">企业资讯</a>
+        <div class="submenu">
+          <a href="#news" data-i18n="nav_company_news">公司动态</a>
+          <a href="#news" data-i18n="nav_industry_news">行业新闻</a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <a href="#contact" data-i18n="nav_contact">联系我们</a>
+        <div class="submenu">
+          <a href="#contact" data-i18n="nav_contact_info">联系方式</a>
+          <a href="#contact" data-i18n="nav_visit_route">来访路线</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 多语言下拉 -->
+    <div class="lang-dropdown">
+      <div class="lang-select" id="langSelect">
+        <span>中文</span>
+        <span>▼</span>
+      </div>
+      <div class="lang-options" id="langOptions">
+        <div class="lang-item active" data-val="zh">中文</div>
+        <div class="lang-item" data-val="en">English</div>
+        <div class="lang-item" data-val="ar">العربية</div>
+        <div class="lang-item" data-val="ja">日本語</div>
+        <div class="lang-item" data-val="ko">한국어</div>
+        <div class="lang-item" data-val="pt">Português</div>
+        <div class="lang-item" data-val="hi">हिन्दी</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="lang-content active" data-id="zh">
+  <section class="banner" id="home">
+    <div>
+      <h1 data-i18n="banner_title">专注医用新材料 赋能健康产业</h1>
+      <p data-i18n="banner_text">专业研发、生产止血与组织修复类医疗产品，打造高品质医用解决方案</p>
+    </div>
+  </section>
+
+  <div class="container" id="about">
+    <h2 class="section-title" data-i18n="about_title">关于我们</h2>
+    <div style="max-width: 900px; margin: 0 auto; font-size: 16px; line-height: 2;">
+      深圳信跃医疗有限公司是一家专注于医用生物材料研发与应用的高新技术企业。公司坐落于深圳市光明区卫光生命产业园，深耕止血材料、组织修复材料领域，以先进技术打造高性能医疗产品，为医疗机构与广大用户提供安全、高效的医用产品及服务。<br><br>
+      <strong>公司地址：</strong>深圳市光明区卫光生命产业园1栋B座1022室
+    </div>
+  </div>
+
+<div class="container" style="background:#f9fbfc;" id="products">
+  <h2 class="section-title" data-i18n="products_title">核心产品</h2>
+  <div class="card-group" style="margin-bottom:40px;">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1584308666744-24d5abe98f46?w=800&q=80" alt="可吸收止血粉">
+      <div class="card-content">
+        <h3>可吸收止血粉（Surgiclean）</h3>
+        <p>快速止血 | 可吸收 | 无残留</p>
+        <button class="btn" onclick="showProduct(1)">了解更多</button>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&q=80" alt="高岭土止血粉">
+      <div class="card-content">
+        <h3>高岭土止血粉（超凝®）</h3>
+        <p>军用级止血 | 无动物源 | 极速凝血</p>
+        <button class="btn" onclick="showProduct(2)">了解更多</button>
+      </div>
+    </div>
+  </div>
+  <div class="card-group">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1573883430699-7fdfa135d362?w=800&q=80" alt="胶原蛋白海绵">
+      <div class="card-content">
+        <h3>胶原蛋白海绵（倍菱）</h3>
+        <p>可吸收 | 促修复 | 软组织填充</p>
+        <button class="btn" onclick="showProduct(3)">了解更多</button>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1579154204742-178eb7a8a446?w=800&q=80" alt="PEEK缝合锚钉">
+      <div class="card-content">
+        <h3>PEEK缝合锚钉（GripLoc®）</h3>
+        <p>免打结 | 高强度 | 腱骨固定</p>
+        <button class="btn" onclick="showProduct(4)">了解更多</button>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1583325668124-ebf377735c1c?w=800&q=80" alt="胶原基质瓣">
+      <div class="card-content">
+        <h3>胶原基质瓣（艾瑞金®）</h3>
+        <p>引导再生 | 防粘连 | 组织重建</p>
+        <button class="btn" onclick="showProduct(5)">了解更多</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
+  <div style="background:#fff; width:90%; max-width:800px; padding:30px; border-radius:10px; position:relative; max-height:80vh; overflow-y:auto;">
+    <span onclick="closeModal()" style="position:absolute; right:20px; top:15px; font-size:24px; cursor-pointer; transition: all 0.3s ease;">×</span>
+    <div id="productDetail"></div>
+  </div>
+</div>
+
+  <div class="container" id="news">
+    <h2 class="section-title" data-i18n="news_title">企业资讯</h2>
+    <div class="news-box" data-i18n="news_text">
+      深圳信跃医疗始终坚持技术创新，持续优化产品性能与品质。公司积极参与行业交流与展会，不断拓展国内外市场，致力于成为医用生物材料领域值得信赖的合作伙伴。欢迎各界朋友莅临参观、洽谈合作。
+    </div>
+  </div>
+
+  <section class="contact" id="contact">
+    <h2 class="section-title" data-i18n="contact_title">联系我们</h2>
+    <p data-i18n="contact_address">地址：深圳市光明区卫光生命产业园1栋B座1022室</p>
+    <p data-i18n="contact_email">邮箱：contact@xinyue-med.com</p>
+  </section>
+</div>
+
+<div class="lang-content" data-id="en">
+  <section class="banner" id="home">
+    <div>
+      <h1>Professional Medical New Materials</h1>
+      <p>We research and produce hemostatic and tissue repair medical products</p>
+    </div>
+  </section>
+  <div class="container" id="about">
+    <h2 class="section-title">About Us</h2>
+    <div style="max-width:900px;margin:0 auto;font-size:16px;line-height:2;">
+      Shenzhen Xinyue Medical Co., Ltd. is a high-tech enterprise focusing on the R&D and application of medical biomaterials. We specialize in hemostatic materials and tissue repair materials.<br><br>
+      <strong>Address:</strong> Room 1022, Block B, Building 1, Weiguang Life Industrial Park, Guangming District, Shenzhen
+    </div>
+  </div>
+  <div class="container" style="background:#f9fbfc;" id="products">
+    <h2 class="section-title">Main Products</h2>
+    <div class="card-group">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1584308666744-24d5abe98f46?w=800&q=80" alt="Hemostatic Powder">
+        <div class="card-content">
+          <h3>Hemostatic Powder</h3>
+          <p>Fast hemostatic performance, far better than most similar products on the market. Widely used in trauma and surgical hemostasis.</p>
+          <button class="btn">Learn More</button>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1573883430699-7fdfa135d362?w=800&q=80" alt="Tissue Repair Products">
+        <div class="card-content">
+          <h3>Tissue Repair Products</h3>
+          <p>Accelerate tissue healing effectively, ideal for Achilles tendon repair and soft tissue injury recovery.</p>
+          <button class="btn">Learn More</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="news">
+    <h2 class="section-title">Company News</h2>
+    <div class="news-box">
+      Shenzhen Xinyue Medical adheres to technological innovation and continuously improves product quality. We actively participate in industry exhibitions and expand global markets. We strive to be your reliable partner in medical biomaterials.
+    </div>
+  </div>
+  <section class="contact" id="contact">
+    <h2 class="section-title">Contact Us</h2>
+    <p>Address: Room 1022, Block B, Building 1, Weiguang Life Industrial Park, Guangming District, Shenzhen</p>
+    <p>Email: contact@xinyue-med.com</p>
+  </section>
+</div>
+
+<div class="lang-content rtl" data-id="ar">
+  <section class="banner" id="home">
+    <div>
+      <h1>شركة شنتشن شين يوي للرعاية الطبية</h1>
+      <p>منتجات طبية لوقف النزيف وإصلاح الأنسجة</p>
+    </div>
+  </section>
+  <div class="container" id="about">
+    <h2 class="section-title">معلومات عنا</h2>
+    <div style="max-width:900px;margin:0 auto;">
+      شركة متخصصة في مواد طبية حيوية، العنوان: الغرفة 1022، المبنى B، المبنى 1، حديقة وي قوانغ للحياة، منطقة قوانغ مينغ، شنتشن
+    </div>
+  </div>
+  <div class="container" style="background:#f9fbfc;" id="products">
+    <h2 class="section-title">منتجاتنا</h2>
+    <div class="card-group">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1584308666744-24d5abe98f46?w=800&q=80" alt="مسحوق إيقاف النزيف">
+        <div class="card-content">
+          <h3>مسحوق إيقاف النزيف</h3>
+          <p>يوقف النزيف بسرعة وكفاءة متفوقة على المنتجات الأخرى.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1573883430699-7fdfa135d362?w=800&q=80" alt="منتجات إصلاح الأنسجة">
+        <div class="card-content">
+          <h3>منتجات إصلاح الأنسجة</h3>
+          <p>يساعد في إصلاح وترميم الأنسجة والأوتار بسرعة.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="news">
+    <h2 class="section-title">أخبار الشركة</h2>
+    <div class="news-box">
+      نلتزم بالابتكار التقني وتطوير المنتجات، ونعمل على توسيع الأسواق المحلية والدولية.
+    </div>
+  </div>
+  <section class="contact" id="contact">
+    <h2 class="section-title">اتصل بنا</h2>
+    <p>العنوان: الغرفة 1022، المبنى B، المبنى 1، حديقة وي قوانغ للحياة، منطقة قوانغ مينغ، شنتشن</p>
+  </section>
+</div>
+
+<div class="lang-content" data-id="ja">
+  <section class="banner" id="home">
+    <div>
+      <h1>深セン信躍医療有限公司</h1>
+      <p>止血材・組織修復材を専門に製造・開発しています</p>
+    </div>
+  </section>
+  <div class="container" id="about">
+    <h2 class="section-title">会社概要</h2>
+    <div style="max-width:900px;margin:0 auto;">
+      所在地：中国広東省深セン市光明区衛光生命産業園1棟B棟1022室
+    </div>
+  </div>
+  <div class="container" style="background:#f9fbfc;" id="products">
+    <h2 class="section-title">主力製品</h2>
+    <div class="card-group">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1584308666744-24d5abe98f46?w=800&q=80" alt="止血パウダー">
+        <div class="card-content">
+          <h3>止血パウダー</h3>
+          <p>優れた速効止血性能を持ち、市販製品を大幅に上回ります。</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1573883430699-7fdfa135d362?w=800&q=80" alt="組織修復製品">
+        <div class="card-content">
+          <h3>組織修復製品</h3>
+          <p>アキレス腱などの組織損傷を迅速に修復します。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="news">
+    <h2 class="section-title">企業ニュース</h2>
+    <div class="news-box">
+      技術革新を続け、国内外の市場を拡大しています。
+    </div>
+  </div>
+  <section class="contact" id="contact">
+    <h2 class="section-title">お問い合わせ</h2>
+    <p>住所：中国広東省深セン市光明区衛光生命産業園1棟B棟1022室</p>
+  </section>
+</div>
+
+<div class="lang-content" data-id="ko">
+  <section class="banner" id="home">
+    <div>
+      <h1>선전 신위에 의료 유한회사</h1>
+      <p>지혈제 및 조직 복구 의료 제품 전문 기업</p>
+    </div>
+  </section>
+  <div class="container" id="about">
+    <h2 class="section-title">회사 소개</h2>
+    <div style="max-width:900px;margin:0 auto;">
+      주소: 선전시 광밍구 웨이광 생명산업단지 1동 B동 1022호
+    </div>
+  </div>
+  <div class="container" style="background:#f9fbfc;" id="products">
+    <h2 class="section-title">주요 제품</h2>
+    <div class="card-group">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1584308666744-24d5abe98f46?w=800&q=80" alt="지혈 분말">
+        <div class="card-content">
+          <h3>지혈 분말</h3>
+          <p>신속한 지혈 효과가 기존 제품보다 월등합니다.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1573883430699-7fdfa135d362?w=800&q=80" alt="조직 복구 제품">
+        <div class="card-content">
+          <h3>조직 복구 제품</h3>
+          <p>아킬레스건 및 연부 조직 손상을 빠르게 회복시킵니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="news">
+    <h2 class="section-title">기업 소식</h2>
+    <div class="news-box">
+      기술 혁신을 통해 제품 품질을 높이고 국내외 시장을 확장하고 있습니다.
+    </div>
+  </div>
+  <section class="contact" id="contact">
+    <h2 class="section-title">문의하기</h2>
+    <p>주소: 선전시 광밍구 웨이광 생명산업단지 1동 B동 1022호</p>
+  </section>
+</div>
+
+<div class="lang-content" data-id="pt">
+  <section class="banner" id="home">
+    <div>
+      <h1>Shenzhen Xinyue Medical Co., Ltd.</h1>
+      <p>Especializados em produtos hemostáticos e reparadores de tecidos</p>
+    </div>
+  </section>
+  <div class="container" id="about">
+    <h2 class="section-title">Sobre Nós</h2>
+    <div style="max-width:900px;margin:0 auto;">
+      Endereço: Sala 1022, Bloco B, Edifício 1, Parque Industrial Weiguang Life, Distrito de Guangming, Shenzhen
+    </div>
+  </div>
+  <div class="container" style="background:#f9fbfc;" id="products">
+    <h2 class="section-title">Produtos Principais</h2>
+    <div class="card-group">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1584308666744-24d5abe98f46?w=800&q=80" alt="Pó Hemostático">
+        <div class="card-content">
+          <h3>Pó Hemostático</h3>
+          <p>Efeito hemostático rápido e superior aos produtos do mercado.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1573883430699-7fdfa135d362?w=800&q=80" alt="Produtos de Reparo de Tecidos">
+        <div class="card-content">
+          <h3>Produtos de Reparo de Tecidos</h3>
+          <p>Acelera a recuperação de tendões e tecidos moles.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="news">
+    <h2 class="section-title">Notícias da Empresa</h2>
+    <div class="news-box">
+      Buscamos inovação tecnológica e expansão de mercados nacionais e internacionais.
+    </div>
+  </div>
+  <section class="contact" id="contact">
+    <h2 class="section-title">Contate-Nos</h2>
+    <p>Endereço: Sala 1022, Bloco B, Edifício 1, Parque Industrial Weiguang Life, Distrito de Guangming, Shenzhen</p>
+  </section>
+</div>
+
+<div class="lang-content" data-id="hi">
+  <section class="banner" id="home">
+    <div>
+      <h1>शेनझेन शिनयू मेडिकल कंपनी लिमिटेड</h1>
+      <p>रक्तस्राव रोकने और ऊतक मरम्मत के चिकित्सा उत्पाद</p>
+    </div>
+  </section>
+  <div class="container" id="about">
+    <h2 class="section-title">हमारे बारे में</h2>
+    <div style="max-width:900px;margin:0 auto;">
+      पता: कमरा 1022, ब्लॉक बी, भवन 1, वेइगुआंग लाइफ इंडस्ट्रियल पार्क, गुआंगमिंग जिला, शेनझेन
+    </div>
+  </div>
+  <div class="container" style="background:#f9fbfc;" id="products">
+    <h2 class="section-title">मुख्य उत्पाद</h2>
+    <div class="card-group">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1584308666744-24d5abe98f46?w=800&q=80" alt="रक्तस्राव रोकने वाला पाउडर">
+        <div class="card-content">
+          <h3>रक्तस्राव रोकने वाला पाउडर</h3>
+          <p>त्वरित रक्तस्राव रोकने की क्षमता बाजार के अन्य उत्पादों से बेहतर है।</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1573883430699-7fdfa135d362?w=800&q=80" alt="ऊतक मरम्मत उत्पाद">
+        <div class="card-content">
+          <h3>ऊतक मरम्मत उत्पाद</h3>
+          <p>एचिलीज टेंडन और अन्य ऊतकों की त्वरित मरम्मत करता है।</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="news">
+    <h2 class="section-title">कंपनी समाचार</h2>
+    <div class="news-box">
+      हम तकनीकी नवाचार पर ध्यान केंद्रित करते हुए घरेलू और विदेशी बाजारों का विस्तार कर रहे हैं।
+    </div>
+  </div>
+  <section class="contact" id="contact">
+    <h2 class="section-title">संपर्क करें</h2>
+    <p>पता: कमरा 1022, ब्लॉक बी, भवन 1, वेइगुआंग लाइफ इंडस्ट्रियल पार्क, गुआंगमिंग जिला, शेनझेन</p>
+  </section>
+</div>
+
+<footer data-i18n="footer_text">© 2026 深圳信跃医疗有限公司 All rights reserved.</footer>
+
+<script>
+  const langSelect = document.getElementById('langSelect');
+  const langOptions = document.getElementById('langOptions');
+  const langItems = document.querySelectorAll('.lang-item');
+  const contents = document.querySelectorAll('.lang-content');
+  const modal = document.getElementById('modal');
+  const closeBtn = document.querySelector('#modal span');
+
+  // 定义各语言的翻译映射表
+  const translations = {
+    zh: {
+      logo: '深圳信跃医疗有限公司',
+      nav_home: '首页',
+      nav_home_main: '首页主页',
+      nav_about: '关于我们',
+      nav_about_us: '关于我们',
+      nav_company_profile: '公司简介',
+      nav_products: '核心产品',
+      nav_all_products: '全部产品',
+      nav_hemostatic_materials: '止血材料',
+      nav_repair_materials: '修复材料',
+      nav_news: '企业资讯',
+      nav_company_news: '公司动态',
+      nav_industry_news: '行业新闻',
+      nav_contact: '联系我们',
+      nav_contact_us: '联系我们',
+      nav_contact_info: '联系方式',
+      nav_visit_route: '来访路线',
+      banner_title: '专注医用新材料 赋能健康产业',
+      banner_text: '专业研发、生产止血与组织修复类医疗产品，打造高品质医用解决方案',
+      about_title: '关于我们',
+      products_title: '核心产品',
+      news_title: '企业资讯',
+      news_text: '深圳信跃医疗始终坚持技术创新，持续优化产品性能与品质。公司积极参与行业交流与展会，不断拓展国内外市场，致力于成为医用生物材料领域值得信赖的合作伙伴。欢迎各界朋友莅临参观、洽谈合作。',
+      contact_title: '联系我们',
+      contact_address: '地址：深圳市光明区卫光生命产业园1栋B座1022室',
+      contact_email: '邮箱：contact@xinyue-med.com',
+      footer_text: '© 2026 深圳信跃医疗有限公司 All rights reserved.'
+    },
+    en: {
+      logo: 'Shenzhen Xinyue Medical Co., Ltd.',
+      nav_home: 'Home',
+      nav_home_main: 'Home Page',
+      nav_about: 'About Us',
+      nav_about_us: 'About Us',
+      nav_company_profile: 'Company Profile',
+      nav_products: 'Main Products',
+      nav_all_products: 'All Products',
+      nav_hemostatic_materials: 'Hemostatic Materials',
+      nav_repair_materials: 'Repair Materials',
+      nav_news: 'Company News',
+      nav_company_news: 'Company News',
+      nav_industry_news: 'Industry News',
+      nav_contact: 'Contact Us',
+      nav_contact_us: 'Contact Us',
+      nav_contact_info: 'Contact Information',
+      nav_visit_route: 'Visit Route',
+      banner_title: 'Professional Medical New Materials',
+      banner_text: 'We research and produce hemostatic and tissue repair medical products',
+      about_title: 'About Us',
+      products_title: 'Main Products',
+      news_title: 'Company News',
+      news_text: 'Shenzhen Xinyue Medical adheres to technological innovation and continuously improves product quality. We actively participate in industry exhibitions and expand global markets. We strive to be your reliable partner in medical biomaterials.',
+      contact_title: 'Contact Us',
+      contact_address: 'Address: Room 1022, Block B, Building 1, Weiguang Life Industrial Park, Guangming District, Shenzhen',
+      contact_email: 'Email: contact@xinyue-med.com',
+      footer_text: '© 2026 Shenzhen Xinyue Medical Co., Ltd. All rights reserved.'
+    },
+    ar: {
+      logo: 'شركة شنتشن شين يوي للرعاية الطبية',
+      nav_home: 'الرئيسية',
+      nav_home_main: 'الصفحة الرئيسية',
+      nav_about: 'معلومات عنا',
+      nav_about_us: 'معلومات عنا',
+      nav_company_profile: 'ملخص الشركة',
+      nav_products: 'منتجاتنا',
+      nav_all_products: 'كل المنتجات',
+      nav_hemostatic_materials: 'مواد إيقاف النزيف',
+      nav_repair_materials: 'مواد الإصلاح',
+      nav_news: 'أخبار الشركة',
+      nav_company_news: 'أخبار الشركة',
+      nav_industry_news: 'أخبار الصناعة',
+      nav_contact: 'اتصل بنا',
+      nav_contact_us: 'اتصل بنا',
+      nav_contact_info: 'معلومات الاتصال',
+      nav_visit_route: 'مسار الزيارة',
+      banner_title: 'شركة شنتشن شين يوي للرعاية الطبية',
+      banner_text: 'منتجات طبية لوقف النزيف وإصلاح الأنسجة',
+      about_title: 'معلومات عنا',
+      products_title: 'منتجاتنا',
+      news_title: 'أخبار الشركة',
+      news_text: 'نلتزم بالابتكار التقني وتطوير المنتجات، ونعمل على توسيع الأسواق المحلية والدولية.',
+      contact_title: 'اتصل بنا',
+      contact_address: 'العنوان: الغرفة 1022، المبنى B، المبنى 1، حديقة وي قوانغ للحياة، منطقة قوانغ مينغ، شنتشن',
+      contact_email: 'البريد الإلكتروني: contact@xinyue-med.com',
+      footer_text: '© 2026 شركة شنتشن شين يوي للرعاية الطبية. جميع الحقوق محفوظة.'
+    },
+    ja: {
+      logo: '深セン信躍医療有限公司',
+      nav_home: 'ホーム',
+      nav_home_main: 'ホームページ',
+      nav_about: '会社概要',
+      nav_about_us: '会社概要',
+      nav_company_profile: '会社プロフィール',
+      nav_products: '主力製品',
+      nav_all_products: 'すべての製品',
+      nav_hemostatic_materials: '止血材',
+      nav_repair_materials: '修復材',
+      nav_news: '企業ニュース',
+      nav_company_news: '会社ニュース',
+      nav_industry_news: '業界ニュース',
+      nav_contact: 'お問い合わせ',
+      nav_contact_us: 'お問い合わせ',
+      nav_contact_info: 'お問い合わせ情報',
+      nav_visit_route: '訪問ルート',
+      banner_title: '深セン信躍医療有限公司',
+      banner_text: '止血材・組織修復材を専門に製造・開発しています',
+      about_title: '会社概要',
+      products_title: '主力製品',
+      news_title: '企業ニュース',
+      news_text: '技術革新を続け、国内外の市場を拡大しています。',
+      contact_title: 'お問い合わせ',
+      contact_address: '住所：中国広東省深セン市光明区衛光生命産業園1棟B棟1022室',
+      contact_email: 'メール：contact@xinyue-med.com',
+      footer_text: '© 2026 深セン信躍医療有限公司 全著作権所有。'
+    },
+    ko: {
+      logo: '선전 신위에 의료 유한회사',
+      nav_home: '홈',
+      nav_home_main: '홈페이지',
+      nav_about: '회사 소개',
+      nav_about_us: '회사 소개',
+      nav_company_profile: '회사 프로필',
+      nav_products: '주요 제품',
+      nav_all_products: '전체 제품',
+      nav_hemostatic_materials: '지혈제',
+      nav_repair_materials: '복구 재료',
+      nav_news: '기업 소식',
+      nav_company_news: '회사 소식',
+      nav_industry_news: '산업 소식',
+      nav_contact: '문의하기',
+      nav_contact_us: '문의하기',
+      nav_contact_info: '연락처 정보',
+      nav_visit_route: '방문 경로',
+      banner_title: '선전 신위에 의료 유한회사',
+      banner_text: '지혈제 및 조직 복구 의료 제품 전문 기업',
+      about_title: '회사 소개',
+      products_title: '주요 제품',
+      news_title: '기업 소식',
+      news_text: '기술 혁신을 통해 제품 품질을 높이고 국내외 시장을 확장하고 있습니다.',
+      contact_title: '문의하기',
+      contact_address: '주소: 선전시 광밍구 웨이광 생명산업단지 1동 B동 1022호',
+      contact_email: '이메일: contact@xinyue-med.com',
+      footer_text: '© 2026 선전 신위에 의료 유한회사. 모든 권리 보유.'
+    },
+    pt: {
+      logo: 'Shenzhen Xinyue Medical Co., Ltd.',
+      nav_home: 'Início',
+      nav_home_main: 'Página Inicial',
+      nav_about: 'Sobre Nós',
+      nav_about_us: 'Sobre Nós',
+      nav_company_profile: 'Perfil da Empresa',
+      nav_products: 'Produtos Principais',
+      nav_all_products: 'Todos os Produtos',
+      nav_hemostatic_materials: 'Materiais Hemostáticos',
+      nav_repair_materials: 'Materiais de Reparo',
+      nav_news: 'Notícias da Empresa',
+      nav_company_news: 'Notícias da Empresa',
+      nav_industry_news: 'Notícias da Indústria',
+      nav_contact: 'Contate-Nos',
+      nav_contact_us: 'Contate-Nos',
+      nav_contact_info: 'Informações de Contato',
+      nav_visit_route: 'Rota de Visita',
+      banner_title: 'Shenzhen Xinyue Medical Co., Ltd.',
+      banner_text: 'Especializados em produtos hemostáticos e reparadores de tecidos',
+      about_title: 'Sobre Nós',
+      products_title: 'Produtos Principais',
+      news_title: 'Notícias da Empresa',
+      news_text: 'Buscamos inovação tecnológica e expansão de mercados nacionais e internacionais.',
+      contact_title: 'Contate-Nos',
+      contact_address: 'Endereço: Sala 1022, Bloco B, Edifício 1, Parque Industrial Weiguang Life, Distrito de Guangming, Shenzhen',
+      contact_email: 'E-mail: contact@xinyue-med.com',
+      footer_text: '© 2026 Shenzhen Xinyue Medical Co., Ltd. Todos os direitos reservados.'
+    },
+    hi: {
+      logo: 'शेनझेन शिनयू मेडिकल कंपनी लिमिटेड',
+      nav_home: 'होम',
+      nav_home_main: 'होम पेज',
+      nav_about: 'हमारे बारे में',
+      nav_about_us: 'हमारे बारे में',
+      nav_company_profile: 'कंपनी प्रोफाइल',
+      nav_products: 'मुख्य उत्पाद',
+      nav_all_products: 'सभी उत्पाद',
+      nav_hemostatic_materials: 'रक्तस्राव रोकने वाली सामग्री',
+      nav_repair_materials: 'मरम्मत सामग्री',
+      nav_news: 'कंपनी समाचार',
+      nav_company_news: 'कंपनी समाचार',
+      nav_industry_news: 'उद्योग समाचार',
+      nav_contact: 'संपर्क करें',
+      nav_contact_us: 'संपर्क करें',
+      nav_contact_info: 'संपर्क की जानकारी',
+      nav_visit_route: 'भ्रमण मार्ग',
+      banner_title: 'शेनझेन शिनयू मेडिकल कंपनी लिमिटेड',
+      banner_text: 'रक्तस्राव रोकने और ऊतक मरम्मत के चिकित्सा उत्पाद',
+      about_title: 'हमारे बारे में',
+      products_title: 'मुख्य उत्पाद',
+      news_title: 'कंपनी समाचार',
+      news_text: 'हम तकनीकी नवाचार पर ध्यान केंद्रित करते हुए घरेलू और विदेशी बाजारों का विस्तार कर रहे हैं।',
+      contact_title: 'संपर्क करें',
+      contact_address: 'पता: कमरा 1022, ब्लॉक बी, भवन 1, वेइगुआंग लाइफ इंडस्ट्रियल पार्क, गुआंगमिंग जिला, शेनझेन',
+      contact_email: 'ईमेल: contact@xinyue-med.com',
+      footer_text: '© 2026 शेनझेन शिनयू मेडिकल कंपनी लिमिटेड. सभी अधिकार सुरक्षित हैं।'
+    }
+  };
+
+  // 语言切换逻辑
+  langSelect.addEventListener('click', () => {
+    langOptions.classList.toggle('show');
+  });
+
+  langItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const lang = item.getAttribute('data-val');
+      
+      // 更新选中状态
+      langItems.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      
+      // 更新显示文本
+      langSelect.querySelector('span:first-child').textContent = item.textContent;
+      
+      // 切换内容
+      contents.forEach(content => {
+        content.classList.remove('active');
+        if (content.getAttribute('data-id') === lang) {
+          content.classList.add('active');
+        }
+      });
+      
+      // 更新翻译
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+      
+      langOptions.classList.remove('show');
+    });
+  });
+
+  // 点击其他区域关闭语言下拉
+  document.addEventListener('click', (e) => {
+    if (!langSelect.contains(e.target) && !langOptions.contains(e.target)) {
+      langOptions.classList.remove('show');
+    }
+  });
+
+  // 产品详情模态框
+  function showProduct(id) {
+    const productDetails = {
+      1: `<h3>可吸收止血粉（Surgiclean）</h3><p>可吸收止血粉是一种新型的医用止血材料，采用天然多糖材料制成，接触血液后能迅速吸收水分并膨胀，形成凝胶状物质堵塞血管破损处，实现快速止血。产品可被人体完全吸收，无残留，适用于各类手术和创伤止血。</p>`,
+      2: `<h3>高岭土止血粉（超凝®）</h3><p>高岭土止血粉采用高纯度高岭土为原料，通过激活凝血因子实现极速止血，军用级标准，无动物源成分，适用于战场、急救等紧急止血场景，凝血速度比传统产品快3-5倍。</p>`,
+      3: `<h3>胶原蛋白海绵（倍菱）</h3><p>胶原蛋白海绵采用牛跟腱提取的高纯度Ⅰ型胶原蛋白制成，具有良好的生物相容性和可吸收性，能促进组织修复和再生，适用于软组织填充、创面修复等场景。</p>`,
+      4: `<h3>PEEK缝合锚钉（GripLoc®）</h3><p>PEEK缝合锚钉采用医用级PEEK材料制成，具有与人体骨骼相近的弹性模量，免打结设计，操作简便，固定强度高，适用于腱骨修复、韧带重建等骨科手术。</p>`,
+      5: `<h3>胶原基质瓣（艾瑞金®）</h3><p>胶原基质瓣采用双层胶原结构设计，具有引导组织再生、防粘连的特性，适用于口腔、骨科、普外科等领域的组织重建手术。</p>`
+    };
+    
+    document.getElementById('productDetail').innerHTML = productDetails[id] || '<h3>产品详情</h3><p>暂无详细信息</p>';
+    modal.style.display = 'flex';
+    // 添加显示动画
+    setTimeout(() => {
+      modal.classList.add('show');
+    }, 10);
+  }
+
+  function closeModal() {
+    modal.classList.remove('show');
+    // 延迟关闭以完成动画
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 400);
+  }
+
+  // 关闭按钮交互效果
+  closeBtn.addEventListener('mouseover', () => {
+    closeBtn.style.transform = 'scale(1.2) rotate(90deg)';
+    closeBtn.style.color = '#005eb8';
+  });
+  
+  closeBtn.addEventListener('mouseout', () => {
+    closeBtn.style.transform = 'scale(1) rotate(0)';
+    closeBtn.style.color = '#333';
+  });
+
+  // 点击模态框背景关闭
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+</script>
+
+</body>
+</html>
